@@ -1,0 +1,13 @@
+{
+  "name": "learning-syogi",
+  "version": "1.0.0",
+  "description": "将棋基礎練習 - 子供向け将棋学習ゲーム",
+  "scripts": {
+    "dev": "npx vite",
+    "build": "npx vite build",
+    "preview": "npx vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
