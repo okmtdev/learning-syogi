@@ -1,6 +1,6 @@
 // Board rendering utilities
 import { PIECE_CHARS, isPromoted } from './pieces.js';
-import { t } from './i18n.js';
+import { tStandard } from './i18n.js';
 
 /**
  * Create a 9x9 board element
@@ -23,6 +23,7 @@ export function createBoard(options = {}) {
     lastMove = null,
     correctCells = [],
     wrongCells = [],
+    missedCells = [],
   } = options;
 
   const boardEl = document.createElement('div');
@@ -37,6 +38,7 @@ export function createBoard(options = {}) {
   const highlightSet = new Set(highlighted.map(([r,c]) => `${r},${c}`));
   const correctSet = new Set(correctCells.map(([r,c]) => `${r},${c}`));
   const wrongSet = new Set(wrongCells.map(([r,c]) => `${r},${c}`));
+  const missedSet = new Set(missedCells.map(([r,c]) => `${r},${c}`));
 
   for (let row = 0; row < 9; row++) {
     for (let col = 0; col < 9; col++) {
@@ -49,6 +51,7 @@ export function createBoard(options = {}) {
       if (lastMove && lastMove[0] === row && lastMove[1] === col) cell.classList.add('last-move');
       if (correctSet.has(key)) cell.classList.add('correct-mark');
       if (wrongSet.has(key)) cell.classList.add('wrong-mark');
+      if (missedSet.has(key)) cell.classList.add('missed-mark');
 
       const piece = pieceMap[key];
       if (piece) {
@@ -57,7 +60,7 @@ export function createBoard(options = {}) {
         span.className = 'piece-char';
         if (piece.owner === -1) span.classList.add('enemy');
         if (isPromoted(piece.type)) span.classList.add('promoted');
-        span.textContent = t(charKey);
+        span.textContent = tStandard(charKey);
         cell.appendChild(span);
       }
 

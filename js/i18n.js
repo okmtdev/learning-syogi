@@ -5,6 +5,7 @@ const textMap = {
   appSubtitle: ['子供から大人まで楽しく学ぼう！', 'たのしく まなぼう！'],
   menuPieceMove: ['駒の動き', 'こまの うごき'],
   menuTsume: ['詰将棋', 'つめしょうぎ'],
+  menuCastle: ['囲い一覧', 'かこい いちらん'],
   menuOption: ['オプション', 'おぷしょん'],
 
   // Piece names
@@ -55,6 +56,9 @@ const textMap = {
   testComplete: ['テスト完了！', 'てすと かんりょう！'],
   testCompleteMsg: ['よくできました！全問正解です！', 'よくできました！ぜんもん せいかい です！'],
   backToMenu: ['メニューに戻る', 'めにゅーに もどる'],
+  legendCorrect: ['正解', 'せいかい'],
+  legendWrong: ['不正解', 'ふせいかい'],
+  legendMissed: ['未選択の正解', 'みせんたくの せいかい'],
 
   // Tsume
   tsumeTitle: ['詰将棋', 'つめしょうぎ'],
@@ -78,6 +82,12 @@ const textMap = {
   seVolume: ['音量', 'おんりょう'],
   kidsMode: ['お子様向け', 'おこさまむけ'],
   kidsModeDesc: ['全ての文字をひらがなにします', 'ぜんぶの もじを ひらがなに します'],
+
+  // Castles
+  castleSelect: ['囲いを選んでね', 'かこいを えらんでね'],
+  castleBoardHint: ['※ 囲いの駒配置を表示しています', 'かこいの こまはいちを ひょうじしています'],
+  castleBackToList: ['囲い一覧に戻る', 'かこい いちらんに もどる'],
+  todayCastle: ['今日の囲い', 'きょうの かこい'],
 
   // Piece explanations
   explainKing: [
@@ -140,4 +150,11 @@ export function t(key) {
   const entry = textMap[key];
   if (!entry) return key;
   return kidsMode ? entry[1] : entry[0];
+}
+
+// Always return standard (kanji) text regardless of kids mode
+export function tStandard(key) {
+  const entry = textMap[key];
+  if (!entry) return key;
+  return entry[0];
 }

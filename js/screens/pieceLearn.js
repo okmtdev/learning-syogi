@@ -4,6 +4,7 @@ import {
   PIECE_CHARS, PROMOTED_MAP, PIECE_EXPLAIN,
   getMovesForDisplay, getValidMoves, LEARNING_PIECES,
 } from '../pieces.js';
+import { playHatodokei } from '../audio.js';
 
 // Show piece learning screen: normal + promoted moves, then test
 export function renderPieceLearn(app, navigate, params) {
@@ -104,6 +105,7 @@ export function renderPieceLearn(app, navigate, params) {
     testBtn.addEventListener('click', () => {
       mode = 'test';
       testState = createTestState();
+      playHatodokei();
       render();
     });
     app.appendChild(testBtn);
@@ -210,20 +212,20 @@ export function renderPieceLearn(app, navigate, params) {
     container.className = 'board-container';
     const board = createBoard({
       pieces,
-      highlighted: missedCells,
       selected: [q.row, q.col],
       correctCells,
       wrongCells,
+      missedCells,
     });
     container.appendChild(board);
     app.appendChild(container);
 
     const legend = document.createElement('div');
-    legend.className = 'arrow-legend';
+    legend.className = 'arrow-legend arrow-legend-lg';
     legend.innerHTML = `
-      <span><span class="dot" style="background:rgba(76,175,80,0.5);border:1px solid #4caf50"></span> 正解</span>
-      <span><span class="dot" style="background:rgba(229,57,53,0.4);border:1px solid #e53935"></span> 不正解</span>
-      <span><span class="dot dot-move"></span> 未選択の正解</span>
+      <span><span class="dot" style="background:rgba(76,175,80,0.5);border:1px solid #4caf50"></span> ${t('legendCorrect')}</span>
+      <span><span class="dot" style="background:rgba(229,57,53,0.4);border:1px solid #e53935"></span> ${t('legendWrong')}</span>
+      <span><span class="dot" style="background:rgba(0,120,0,0.6);border:1px solid #006600"></span> ${t('legendMissed')}</span>
     `;
     app.appendChild(legend);
 

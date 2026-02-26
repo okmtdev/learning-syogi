@@ -154,14 +154,14 @@ p {
 /* ===== Home ===== */
 .home-title {
   font-size: 2rem;
-  margin-top: 32px;
-  margin-bottom: 4px;
+  margin-top: 16px;
+  margin-bottom: 2px;
 }
 
 .home-subtitle {
   font-size: 1rem;
   color: #888;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 
 /* ===== Board ===== */
@@ -220,6 +220,10 @@ p {
 
 .cell.wrong-mark {
   background: rgba(229, 57, 53, 0.4);
+}
+
+.cell.missed-mark {
+  background: rgba(0, 120, 0, 0.6);
 }
 
 .cell.last-move {
@@ -468,6 +472,11 @@ p {
   margin: 8px 0;
   font-size: 0.85rem;
   color: #666;
+}
+
+.arrow-legend-lg {
+  font-size: 1.05rem;
+  color: #444;
 }
 
 .arrow-legend span {

@@ -6,6 +6,7 @@ import { renderPieceLearn } from './screens/pieceLearn.js';
 import { renderTsumeMenu } from './screens/tsumeMenu.js';
 import { renderTsumePlay } from './screens/tsumePlay.js';
 import { renderOptions } from './screens/options.js';
+import { renderCastleMenu, renderCastleDetail } from './screens/castleMenu.js';
 
 const app = document.getElementById('app');
 
@@ -31,6 +32,12 @@ function navigate(screen, params = {}) {
       break;
     case 'tsumePlay':
       renderTsumePlay(app, navigate, params);
+      break;
+    case 'castleMenu':
+      renderCastleMenu(app, navigate);
+      break;
+    case 'castleDetail':
+      renderCastleDetail(app, navigate, params);
       break;
     case 'options':
       renderOptions(app, navigate, params, () => {

@@ -3,6 +3,7 @@ import { createBoard, buildBoardArray } from '../board.js';
 import { getValidMoves, PIECE_CHARS } from '../pieces.js';
 import { PUZZLES } from '../puzzles.js';
 import { markPuzzleCleared } from '../storage.js';
+import { playKoma, playHakusyu, playHatodokei } from '../audio.js';
 
 export function renderTsumePlay(app, navigate, params) {
   const puzzle = PUZZLES[params.puzzleIndex];
@@ -16,8 +17,15 @@ export function renderTsumePlay(app, navigate, params) {
   let gameOver = false;
   let gameResult = null; // 'clear' | 'fail'
 
+  let initialized = false;
+
   function render() {
     app.innerHTML = '';
+
+    if (!initialized) {
+      initialized = true;
+      playHatodokei();
+    }
 
     const backBtn = document.createElement('button');
     backBtn.className = 'btn btn-back';
@@ -160,12 +168,14 @@ export function renderTsumePlay(app, navigate, params) {
       moveCount++;
       selectedPiece = null;
       validMoves = [];
+      playKoma();
 
       // Check if this is checkmate
       if (isCheckmate(pieces)) {
         gameOver = true;
         gameResult = 'clear';
         markPuzzleCleared(puzzle.id);
+        playHakusyu();
         render();
         return;
       }
@@ -277,6 +287,7 @@ export function renderTsumePlay(app, navigate, params) {
       gameOver = true;
       gameResult = 'clear';
       markPuzzleCleared(puzzle.id);
+      playHakusyu();
       render();
       return;
     }
@@ -284,6 +295,7 @@ export function renderTsumePlay(app, navigate, params) {
     // Pick a move (prefer king moves, then blocks)
     const move = allMoves[0];
     moveCount++;
+    playKoma();
 
     if (move.type === 'king') {
       const capIdx = pieces.findIndex(p => p.row === move.to[0] && p.col === move.to[1] && p.owner === 1);
