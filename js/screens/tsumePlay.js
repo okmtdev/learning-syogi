@@ -292,7 +292,39 @@ export function renderTsumePlay(app, navigate, params) {
       return;
     }
 
-    // Pick a move (prefer king moves, then blocks)
+    // Score each move to pick the best defensive response
+    // Prioritize: captures > blocks > escape toward center
+    for (const m of allMoves) {
+      let score = 0;
+      const [r, c] = m.to;
+
+      // Prefer capturing player pieces (especially valuable ones)
+      const target = pieces.find(p => p.row === r && p.col === c && p.owner === 1);
+      if (target) {
+        const pieceValues = {
+          pawn: 1, lance: 3, knight: 4, silver: 5, gold: 6,
+          bishop: 8, rook: 10,
+          promotedPawn: 6, promotedLance: 6, promotedKnight: 6, promotedSilver: 6,
+          promotedBishop: 10, promotedRook: 12,
+        };
+        score += 100 + (pieceValues[target.type] || 0);
+      }
+
+      // Prefer squares closer to center (more escape room)
+      const centerDist = Math.abs(r - 4) + Math.abs(c - 4);
+      score += (8 - centerDist);
+
+      // Count adjacent squares within the board (more room = better)
+      let adjacentCount = 0;
+      for (const [dr, dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]) {
+        const nr = r + dr, nc = c + dc;
+        if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) adjacentCount++;
+      }
+      score += adjacentCount;
+
+      m.score = score;
+    }
+    allMoves.sort((a, b) => b.score - a.score);
     const move = allMoves[0];
     moveCount++;
     playKoma();
@@ -410,7 +442,7 @@ export function renderTsumePlay(app, navigate, params) {
       box.appendChild(h);
 
       const p = document.createElement('p');
-      p.textContent = t('puzzleFailMsg');
+      p.textContent = t('puzzleFailMsg', { n: puzzle.maxMoves });
       box.appendChild(p);
 
       const retryBtn = document.createElement('button');

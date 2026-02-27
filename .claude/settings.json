@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:packagegalaxy.com)",
+      "WebFetch(domain:apps.81.la)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:unpkg.com)",
+      "WebFetch(domain:app.unpkg.com)",
+      "Bash(npm install shogi.js)",
+      "Bash(npx vite build)",
+      "Bash(node /tmp/validate_p4_new.mjs)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}

@@ -70,7 +70,7 @@ const textMap = {
   puzzleClear: ['クリア！', 'くりあ！'],
   puzzleClearMsg: ['見事に詰みました！おめでとう！', 'みごとに つみました！おめでとう！'],
   puzzleFail: ['失敗...', 'しっぱい...'],
-  puzzleFailMsg: ['3手で詰みませんでした。もう一度挑戦しよう！', '3てで つみませんでした。もういちど ちょうせんしよう！'],
+  puzzleFailMsg: ['${n}手で詰みませんでした。もう一度挑戦しよう！', '${n}てで つみませんでした。もういちど ちょうせんしよう！'],
   retryPuzzle: ['最初からやり直す', 'さいしょから やりなおす'],
   moveCount: ['手数', 'てすう'],
   selectPiece: ['持ち駒を選んでから打つ場所をタップ', 'もちごまを えらんでから うつ ばしょを たっぷ'],
@@ -146,10 +146,16 @@ export function isKidsMode() {
   return kidsMode;
 }
 
-export function t(key) {
+export function t(key, params) {
   const entry = textMap[key];
   if (!entry) return key;
-  return kidsMode ? entry[1] : entry[0];
+  let text = kidsMode ? entry[1] : entry[0];
+  if (params) {
+    for (const [k, v] of Object.entries(params)) {
+      text = text.replace(`\${${k}}`, v);
+    }
+  }
+  return text;
 }
 
 // Always return standard (kanji) text regardless of kids mode
